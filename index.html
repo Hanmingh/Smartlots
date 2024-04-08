@@ -8,27 +8,29 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to SmartLots</h1>
-        <nav>
-            <ul>
-                <li><a href="#register">Register</a></li>
-                <li><a href="#login">Login</a></li>
-                <li><a href="#find-parking">Find Parking</a></li>
-            </ul>
-        </nav>
+        <div class="container">
+            <h1>Welcome to SmartLots</h1>
+        </div>
     </header>
-    <main>
-        <section id="register">
-            <h2>Register</h2>
-            <!-- Registration Form -->
-        </section>
-        <section id="login">
-            <h2>Login</h2>
-            <!-- Login Form -->
-        </section>
+    <main class="container">
         <section id="find-parking">
-            <h2>Find Your Parking</h2>
-            <!-- Parking Search Form -->
+            <div class="container">
+                <h1>Find Parking Near You</h1>
+                <button id="findParkingBtn">Search</button>
+
+                <div id="parkingLotsList"></div>
+
+                <div id="selectedParking" style="display: none;">
+                    <h3 id="parkingName"></h3>
+                    <p id="parkingRate"></p>
+                    <label for="parkingTime">Hours: </label>
+                    <input type="number" id="parkingTime" min="1" step="1">
+                    <button id="calculateCostBtn">Calculate Cost</button>
+                </div>
+                
+                <p id="estimatedCost"></p>
+            </div>
+            <script src="app.js"></script>
         </section>
     </main>
 </body>
