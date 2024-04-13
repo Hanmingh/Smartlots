@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartLots - Find Your Parking</title>
+    <title>SmartLots</title>
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Welcome to SmartLots</h1>
+  </head>
+  <body>
+    <section class="container" id="container1">
+      <header>Welcome to SmartLots!</header>
+      <form action="#" class="form">
+        <div class="input-box">
+          <label for="cars">Your Vehicle Type:</label>
+          <select class ="select-box" id="vehicle_type">
+            <option value="Car">Car</option>
+            <option value="Motorcycle">Motorcycle</option>
+            <option value="HeavyVehicle">Heavy vehicle</option>
+          </select>
         </div>
-    </header>
-    <main class="container">
-        <section id="find-parking">
-            <div class="container">
-                <h1>Find Parking Near You</h1>
-                <button id="findParkingBtn">Search</button>
 
-                <div id="parkingLotsList"></div>
+        <div class="input-box">
+          <label>Start Parking Time:</label>
+          <input type="time" name="startTime" id="startTime">
+        </div>
 
-                <div id="selectedParking" style="display: none;">
-                    <h3 id="parkingName"></h3>
-                    <p id="parkingRate"></p>
-                    <label for="parkingTime">Hours: </label>
-                    <input type="number" id="parkingTime" min="1" step="1">
-                    <button id="calculateCostBtn">Calculate Cost</button>
-                </div>
-                
-                <p id="estimatedCost"></p>
-            </div>
-            <script src="app.js"></script>
-        </section>
-    </main>
-</body>
+        <div class="input-box">
+          <label>Estimated Parking Time:</label>
+          <div class = sliderValue>
+            <span></span>
+          </div>
+          <input type="range" min="1" max="48" teps="1" name="parkingTime" id="parkingTime">
+        </div>
+
+        <button id="searchBttn" type="button">Search</button>
+      </form>
+    </section>
+
+  </body>
+  <script src="app.js"></script>
 </html>
