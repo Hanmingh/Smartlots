@@ -95,13 +95,18 @@ label{
   justify-content: center;
   align-items: center;
   margin: 50px 0;
+  word-wrap: break-word;
+}
+
+.container .gallery p {
+  white-space: normal;
 }
 
 .container .gallery .content {
   color: #fff;
   font-weight: 500;
   width: 45%;
-  height: 300px;
+  height: 400px;
   margin: 15px;
   box-sizing: border-box;
   float: left;
@@ -113,6 +118,12 @@ label{
   0 10px 10px rgba(0, 0, 0, 0.22);
   transition: .4s;
   background: #563ce6;
+  margin: 50px 0;
+  word-wrap: break-word;
+}
+
+.container .gallery .content h3, .container .gallery .content h5 {
+  white-space: normal;
 }
 
 .container .gallery .content:hover {
@@ -121,7 +132,8 @@ label{
   transform: translate(0px, -8px);
 }
 
-.container .gallery .content iframe {
+iframe {
+  border-radius: 8px;
   width: 200px;
   height: 200px;
   text-align: center;
