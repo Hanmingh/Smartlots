@@ -11,8 +11,10 @@ inputSlider.onblur = (()=>{
 });
 
 
-document.getElementById('searchBttn').addEventListener('click', function() {        
-    if (navigator.geolocation) {
+document.getElementById('searchBttn').addEventListener('click', function() { 
+    if(document.getElementById('startTime').value == ""){
+        alert("Please enter start time!");
+    }else if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             let lat = position.coords.latitude;
             let long = position.coords.longitude;
@@ -24,20 +26,16 @@ document.getElementById('searchBttn').addEventListener('click', function() {
             //lat = 1.234222;
             //long = 103.615090; //test location
 
-            const url = 'https://park.mydawg.top/park/nearby?latitude=' + lat + '&longitude='+ long; //api url
+            const url = 'https://park.mydawg.top/park/nearbyNew?latitude=' + lat + '&longitude='+ long + '&type=' + carType; //api url
 
             fetch(url, {
                 method: 'GET',
-                header:{
-                    "car_type": carType,
-                    "start_time": startTime,
-                    "parking_time": parkingTime
-                }
             })
             .then(response => response.json())
             .then(lists => {
                 const container1 = document.getElementById('container1');
-                //container1.removeChild;
+                if(document.getElementById("container2") != null) document.getElementById("container2").remove();
+                if(document.getElementById("container3") != null) document.getElementById("container3").remove();
                 
                 const container2 = document.createElement('section');
                 container2.className = "container";
@@ -66,14 +64,10 @@ document.getElementById('searchBttn').addEventListener('click', function() {
                     content.appendChild(h3);
 
                     const h5 = document.createElement('h5');
-                    h5.textContent = parking.distance;
+                    h5.textContent = "Distance: " + parking.distance + "km";
                     content.appendChild(h5);
-
-                    const sh5 = document.createElement('h5');
-                    sh5.textContent = "Rate: " + parking.rate;
-                    content.appendChild(sh5);
                     
-                    content.onclick = () => selectParking(parking.id, parkingTime, direcUrl);
+                    content.onclick = () => selectParking(parking.ppCode, startTime, parkingTime, direcUrl);
                     parkingList.append(content);
                 });
             })
@@ -87,21 +81,22 @@ document.getElementById('searchBttn').addEventListener('click', function() {
 
 });
 
-function selectParking(id, parkingTime, mapUrl) {
-    const url = 'https://park.mydawg.top/park/predict?id=362&from=1679965200&to=1679976000';
+function selectParking(id, startTime, parkingTime, mapUrl) {
+    const [hours, minutes] = startTime.split(':');
+    var start = new Date(2024, 4, 15, hours, minutes);
+    const fromTimeStamp = Math.floor(start.getTime() / 1000);
+    const toTimeStamp = Math.floor((start.getTime() + parkingTime * 60 * 60 * 1000) / 1000);
+
+    const url = 'https://park.mydawg.top/park/predictNew?id='+ id +'&from='+ fromTimeStamp + '&to=' + toTimeStamp;
 
     fetch(url, {
         method: 'GET',
-        header:{
-            "id" : id,
-            "parking_time": parkingTime
-        }
     })
     .then(response => response.json())
     .then(info => {
         const container2 = document.getElementById('container2');
         const previous = document.getElementById("container3");
-        if(previous != null) previous.remove(previous);
+        if(previous != null) previous.remove();
                 
         const container3 = document.createElement('section');
         container3.className = "container";
