@@ -23,10 +23,12 @@ document.getElementById('searchBttn').addEventListener('click', function() {
             const startTime = document.getElementById('startTime').value;
             const parkingTime = document.getElementById('parkingTime').value/2;
 
-            //lat = 1.234222;
-            //long = 103.615090; //test location
-
-            const url = 'https://park.mydawg.top/park/nearbyNew?latitude=' + lat + '&longitude='+ long + '&type=' + carType; //api url
+            let url = null;
+            if(carType == "Car"){
+                url = 'https://park.mydawg.top/park/nearby?latitude=' + lat + '&longitude='+ long + '&type=' + carType; //api url
+            }else{
+                url = 'https://park.mydawg.top/park/nearbyNew?latitude=' + lat + '&longitude='+ long + '&type=' + carType;
+            }
 
             fetch(url, {
                 method: 'GET',
@@ -64,10 +66,20 @@ document.getElementById('searchBttn').addEventListener('click', function() {
                     content.appendChild(h3);
 
                     const h5 = document.createElement('h5');
-                    h5.textContent = "Distance: " + parking.distance + "km";
+                    if(carType == "Car"){
+                        h5.textContent = "Distance: " + parking.distance;
+                    }else{
+                        h5.textContent = "Distance: " + parking.distance + "km";
+                    }
                     content.appendChild(h5);
                     
-                    content.onclick = () => selectParking(parking.ppCode, startTime, parkingTime, direcUrl);
+                    let id = null;
+                    if(carType == 'Car'){
+                        id = parking.id;
+                    }else{
+                        id = parking.ppCode;
+                    }
+                    content.onclick = () => selectParking(id, startTime, parkingTime, direcUrl);
                     parkingList.append(content);
                 });
             })
@@ -87,7 +99,15 @@ function selectParking(id, startTime, parkingTime, mapUrl) {
     const fromTimeStamp = Math.floor(start.getTime() / 1000);
     const toTimeStamp = Math.floor((start.getTime() + parkingTime * 60 * 60 * 1000) / 1000);
 
-    const url = 'https://park.mydawg.top/park/predictNew?id='+ id +'&from='+ fromTimeStamp + '&to=' + toTimeStamp;
+    let url = null;
+    const carType = document.getElementById('vehicle_type').value;
+    if(carType == "Car"){
+        url = 'https://park.mydawg.top/park/predict?id='+ id +'&from='+ fromTimeStamp + '&to=' + toTimeStamp;
+    }else{
+        url = 'https://park.mydawg.top/park/predictNew?id='+ id +'&from='+ fromTimeStamp + '&to=' + toTimeStamp;
+    }
+
+    console.log(url);
 
     fetch(url, {
         method: 'GET',
